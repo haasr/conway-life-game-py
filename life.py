@@ -127,7 +127,7 @@ def main():
         print("_____________________________________________")
         print(f"{yellow}-h      ", end="")
         print(f"{white}Help (this menu)")
-        print(f"{yellow}-row    ", end="")
+        print(f"{yellow}-rows   ", end="")
         print(f"{white}Specify the number of rows")
         print(f"{yellow}-cols   ", end="")
         print(f"{white}Specify the number of columns")
