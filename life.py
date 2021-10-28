@@ -129,7 +129,7 @@ def main():
         print(f"{white}Help (this menu)")
         print(f"{yellow}-row    ", end="")
         print(f"{white}Specify the number of rows")
-        print(f"{yellow}-col    ", end="")
+        print(f"{yellow}-cols   ", end="")
         print(f"{white}Specify the number of columns")
         print(f"{yellow}-pause  ", end="")
         print(f"{white}Choose to pause after each step: 0=false, 1=true")
