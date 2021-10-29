@@ -1,6 +1,7 @@
 from platform import system
 from random import randint
 from copy import deepcopy
+import signal
 import sys
 import os
 
@@ -25,6 +26,11 @@ if system() == 'Windows':
 else:
     def clear_screen():
         os.system('clear')
+
+
+def interrupt(signum, frame):
+    print('Interrupt received. Exiting...')
+    sys.exit(0)
 
 
 def pause_game():
@@ -84,7 +90,36 @@ def start_game(pause=0, max_iter=1000):
         clear_screen()
 
 
+def show_menu(exit_code):
+    white = str.format('\033[97m')
+    yellow = str.format('\033[93m')
+    green = str.format('\033[92m')
+    print(f"\n{white}                  Options")
+    print("_____________________________________________")
+    print(f"{yellow}-h       ", end="")
+    print(f"{white}Help (this menu)")
+    print(f"{yellow}-rows    ", end="")
+    print(f"{white}Specify the number of rows")
+    print(f"{yellow}-cols    ", end="")
+    print(f"{white}Specify the number of columns")
+    print(f"{yellow}-pause   ", end="")
+    print(f"{white}Choose to pause after each step: 0=false, 1=true")
+    print(f"{yellow}-gen     ", end="")
+    print(f"{white}Specify the number of generations")
+    print(f"{green}<Ctrl-C> ", end="")
+    print(f"{white}Interrupt the program and exit.")
+
+    print("\n                  Examples")
+    print("_____________________________________________")
+    print("Ex a: python life.py")
+    print("Ex b: python life.py -rows 20 -cols 20")
+    print("Ex c: python life.py -rows 20 -cols 20 -pause 1")
+    print("Ex d: python life.py -rows 20 -cols 20 -pause 0")
+    print("Ex e: python life.py -rows 20 -cols 20 -pause 0 -gen 100")
+    exit(exit_code)
+
 def main():
+    signal.signal(signal.SIGINT, interrupt)
     args = sys.argv[1:]
     rows = cols = pause = 0
     gen = 1000
@@ -121,37 +156,9 @@ def main():
         rows = 20
         cols = 20
     elif len(args) == 1:
-        white = str.format('\033[97m')
-        yellow = str.format('\033[93m')
-        print(f"\n{white}                  Options")
-        print("_____________________________________________")
-        print(f"{yellow}-h      ", end="")
-        print(f"{white}Help (this menu)")
-        print(f"{yellow}-rows   ", end="")
-        print(f"{white}Specify the number of rows")
-        print(f"{yellow}-cols   ", end="")
-        print(f"{white}Specify the number of columns")
-        print(f"{yellow}-pause  ", end="")
-        print(f"{white}Choose to pause after each step: 0=false, 1=true")
-        print(f"{yellow}-gen    ", end="")
-        print(f"{white}Specify the number of generations")
-
-        print("\n                  Examples")
-        print("_____________________________________________")
-        print("Ex a: python life.py")
-        print("Ex b: python life.py -rows 20 -cols 20")
-        print("Ex c: python life.py -rows 20 -cols 20 -pause 1")
-        print("Ex d: python life.py -rows 20 -cols 20 -pause 0")
-        print("Ex e: python life.py -rows 20 -cols 20 -pause 0 -gen 100")
-        exit(0)
+        show_menu(0)
     else:
-        print("\nInvalid args supplied...")
-        print("Ex a: python life.py")
-        print("Ex b: python life.py -rows 20 -cols 20", end="\n\n")
-        print("Ex c: python life.py -rows 20 -cols 20 -pause 1", end="\n\n")
-        print("Ex d: python life.py -rows 20 -cols 20 -pause 0", end="\n\n")
-        print("Ex e: python life.py -rows 20 -cols 20 -pause 0 -gen 100", end="\n\n")
-        exit(1)
+        show_menu(1)
     
     init_grid(rows, cols)
     start_game(pause=pause, max_iter=gen)
