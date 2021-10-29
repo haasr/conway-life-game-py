@@ -1,6 +1,7 @@
 from platform import system
 from random import randint
 from copy import deepcopy
+from time import sleep
 import signal
 import sys
 import os
@@ -81,12 +82,13 @@ def start_game(pause=0, max_iter=1000):
         for i in range(len(grid_n)):
             for j in range(len(grid_n[0])):
                 if grid_n[i][j] == 1:
-                    print("\033[91m" + str(grid_n[i][j]), end=' ')
+                    print("\033[91m" + "o", end=' ')
                 else:
-                    print("\033[97m" + str(grid_n[i][j]), end=' ',)
+                    print("\033[97m" + "o", end=' ')
             print()
         if pause == 1:
             pause_game()
+        sleep(.07)
         clear_screen()
 
 
